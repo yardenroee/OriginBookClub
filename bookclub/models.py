@@ -14,3 +14,6 @@ class Book(models.Model):
     genre = models.CharField(max_length=100, choices=GENRE_CHOICES, default="Non-fiction(other)")
     notes = models.TextField()
     year = models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.title
