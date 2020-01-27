@@ -3,5 +3,5 @@ from django.http import HttpResponse
 
 from django.views.generic.list import ListView
 
-class Books(ListView):
-    pass
+def index(request):
+    return render(request, 'books/index.html')
