@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Book
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 class BookListView(ListView):
     model = Book
     template_name = "index.html"
@@ -12,6 +14,13 @@ class BookListView(ListView):
 class BookDetailView(DetailView):
     model = Book
     template_name = "book_detail.html"
+    def post(self, *args, **kwargs):
+        if self.request.method == "POST":
+            book = Book.objects.get(pk=self.kwargs.get('pk'))
+            user = self.request.user
+            user.profile.favorites.add(book)
+            user.save()
+        return redirect('index')
 
 class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book

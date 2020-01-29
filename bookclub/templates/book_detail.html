@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 <article class="media content-section">
     <img class="article-img" src="{{ book.image.url }}">
@@ -10,6 +11,15 @@
         <h2 class="article-title article-metadata">{{ book.title }}</h2>
         <h5 class="article-content article-metadata">{{ book.genre }}</h5>
         <p class="lead article-metadata">About: {{ book.about }}</p>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ form|crispy}}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Favorite Book</button>
+            </div>
+        </form>
         <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info">Update</a>
         <a href="{% url 'book_delete' book.id %}" class="btn btn-outline-danger">Delete</a>
 
