@@ -15,12 +15,20 @@ class BookDetailView(DetailView):
     model = Book
     template_name = "book_detail.html"
     def post(self, *args, **kwargs):
+        user = self.request.user
+        book = Book.objects.get(pk=self.kwargs.get('pk'))
         if self.request.method == "POST":
-            book = Book.objects.get(pk=self.kwargs.get('pk'))
-            user = self.request.user
-            user.profile.favorites.add(book)
-            user.save()
+            if book not in user.profile.favorites.all():
+                user.profile.favorites.add(book)
+                user.save()
+            else:
+                user.profile.favorites.remove(book)
+                user.save()
         return redirect('index')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favorites'] = self.request.user.profile.favorites.all()
+        return context
 
 class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book

@@ -16,9 +16,15 @@
             <fieldset class="form-group">
                 {{ form|crispy}}
             </fieldset>
+            {% if book in request.user.profile.favorites.all %}
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Favorite Book</button>
+                <button class="btn btn-outline-info" type="submit">Unfavorite</button>
             </div>
+            {% else %}
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Favorite</button>
+            </div>
+            {% endif %}
         </form>
         <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info">Update</a>
         <a href="{% url 'book_delete' book.id %}" class="btn btn-outline-danger">Delete</a>
