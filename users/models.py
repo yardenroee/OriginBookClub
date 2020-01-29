@@ -10,7 +10,7 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def save(self):
+    def save(self): # overrides the models.Model save method to incorporate the Pillow package for maintaining and resizing file size
         super().save()
         img = Image.open(self.image.path)
 
