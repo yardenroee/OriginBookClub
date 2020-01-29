@@ -13,8 +13,8 @@ class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     genre = models.CharField(max_length=100, choices=GENRE_CHOICES, default="Non-fiction(other)")
-    notes = models.TextField()
-    year = models.CharField(max_length=4)
+    about = models.TextField()
+    year = models.IntegerField()
     image = models.ImageField(default='default_cover.jpg', upload_to="cover_pics")
     def __str__(self):
         return self.title
@@ -24,7 +24,7 @@ class Book(models.Model):
         img = Image.open(self.image.path)
 
         if img.height > 300 or img.width > 300:
-            output_size = (200,200)
+            output_size = (150,150)
             img.thumbnail(output_size)
             img.save(self.image.path)
 

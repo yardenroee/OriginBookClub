@@ -9,7 +9,7 @@
         </div>
         <h2 class="article-title article-metadata">{{ book.title }}</h2>
         <h5 class="article-content article-metadata">{{ book.genre }}</h5>
-        <p class="lead article-metadata">Notes: {{ book.notes }}</p>
+        <p class="lead article-metadata">About: {{ book.about }}</p>
         <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info">Update</a>
     </div>
 </article>

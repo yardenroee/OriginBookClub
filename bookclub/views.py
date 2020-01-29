@@ -1,10 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from .models import Book
-from django.views.generic import ListView, DetailView
-from django.views.generic import UpdateView, CreateView, DeleteView
-from .forms import AddBookForm, UpdateBookForm
-
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 class BookListView(ListView):
     model = Book
     template_name = "index.html"
@@ -16,13 +13,13 @@ class BookDetailView(DetailView):
     model = Book
     template_name = "book_detail.html"
 
-class BookCreateView(CreateView):
+class BookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     template_name = "add_book.html"
-    fields = ['title','author','genre','notes','year','image']
+    fields = ['title','author','genre','about','year','image']
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     template_name ="update_book.html"
-    fields = ['title','author','genre','notes','year','image']
+    fields = ['title','author','genre','about','year','image']
         
