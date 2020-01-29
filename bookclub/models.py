@@ -1,5 +1,6 @@
 from django.db import models
-
+from PIL import Image
+from django.urls import reverse
 class Book(models.Model):
     GENRE_CHOICES = [
         ("Children's", "Children's"),
@@ -17,3 +18,15 @@ class Book(models.Model):
     image = models.ImageField(default='default_cover.jpg', upload_to="cover_pics")
     def __str__(self):
         return self.title
+
+    def save(self):
+        super().save()
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (200,200)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+    def get_absolute_url(self):
+        return reverse('book_detail', kwargs={'pk' : self.pk})

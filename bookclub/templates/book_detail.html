@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="media content-section">
+    <img class="article-img" src="{{ book.image.url }}">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2">{{ book.author }}</a>
+            <small class="text-muted">{{ book.year }}</small>
+        </div>
+        <h2 class="article-title article-metadata">{{ book.title }}</h2>
+        <h5 class="article-content article-metadata">{{ book.genre }}</h5>
+        <p class="lead article-metadata">Notes: {{ book.notes }}</p>
+        <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info">Update</a>
+    </div>
+</article>
+{% endblock content %}
