@@ -11,6 +11,8 @@
         <h5 class="article-content article-metadata">{{ book.genre }}</h5>
         <p class="lead article-metadata">About: {{ book.about }}</p>
         <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info">Update</a>
+        <a href="{% url 'book_delete' book.id %}" class="btn btn-outline-danger">Delete</a>
+
     </div>
 </article>
 {% endblock content %}

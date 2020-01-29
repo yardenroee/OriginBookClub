@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=User) #on user creation will trigger this profile creation method (middleware)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile.objects.create(user = instance)

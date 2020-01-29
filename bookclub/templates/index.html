@@ -3,7 +3,7 @@
     {% for book in books %}
         <article class="media content-section">
             <a href="{% url 'book_detail' book.id %}">
-                <img class="mr-3" src="{{ book.image.url }}">
+                <img style="box-shadow:0px 0px 2px 2px #5f788a; border-radius: 10px;"class="mr-3" src="{{ book.image.url }}">
             </a>
             <div class="media-body">
                 <div class="article-metadata">

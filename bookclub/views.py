@@ -22,4 +22,8 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     template_name ="update_book.html"
     fields = ['title','author','genre','about','year','image']
-        
+
+class BookDeleteView(LoginRequiredMixin, DeleteView):
+    model = Book
+    template_name = "book_delete.html"
+    success_url = "/" #will redirect to home page on successful deletion
