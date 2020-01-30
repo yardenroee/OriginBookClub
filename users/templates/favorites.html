@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
+<h2>Favorites</h2>
 {% for favorite in favorites %}
-<h2>Favor</h2>
 <article class="media content-section">
     <a href="{% url 'book_detail' favorite.id %}">
         <img style="box-shadow:0px 0px 2px 2px #5f788a; border-radius: 10px;" class="mr-3" src="{{ favorite.image.url }}">
@@ -9,10 +10,10 @@
     <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'book_detail' favorite.id %}">{{ favorite.title }}</a>
-            <small class="text-muted">{{ favorite.author }}</small>
+            <small class="text-muted">{{ favorite.year }}</small>
         </div>
         <h2 class="article-title">{{ favorite.title }}</h2>
-        <p class="article-content">{{ favorite.about }}</p>
+        <a href="{% url 'book_detail' favorite.id %}" class="btn btn-outline-info mt-4">Unfavorite</a>
     </div>
 </article>
 {% endfor %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib import messages
 from .models import Profile
@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from bookclub.models import Book
+
 # from django.apps import apps
 # Create your views here.
 
@@ -44,7 +46,8 @@ def profile(request):
 class FavoriteListView(LoginRequiredMixin, ListView):
     model = Profile
     template_name = 'favorites.html'
-    paginate_by = 5
+    paginate_by = 4
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favorites'] = self.request.user.profile.favorites.all()   
