@@ -15,6 +15,7 @@
                 Book Info
             </legend>
             {{ form|crispy}}
+            {{ UserBookNotesFormSet|crispy}}
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update Book</button>

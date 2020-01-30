@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<h2>Book Info</h2>
 <article class="media content-section">
     <img class="article-img" src="{{ book.image.url }}">
     <div class="media-body">
@@ -11,6 +12,7 @@
         <h2 class="article-title article-metadata">{{ book.title }}</h2>
         <h5 class="article-content article-metadata">{{ book.genre }}</h5>
         <p class="lead article-metadata">About: {{ book.about }}</p>
+        <p class="lead article-metadata">Personal Notes: {{ book_notes }}</p>
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">

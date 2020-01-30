@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<h2>Home</h2>
     {% for book in books %}
         <article class="media content-section">
             <a href="{% url 'book_detail' book.id %}">

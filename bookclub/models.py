@@ -1,6 +1,12 @@
 from django.db import models
 from PIL import Image
 from django.urls import reverse
+from django.contrib.auth.models import User
+class UserBookNotes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey('Book', on_delete = models.CASCADE)
+    text = models.TextField(default="")
+
 class Book(models.Model):
     GENRE_CHOICES = [
         ("Children's", "Children's"),
@@ -13,9 +19,10 @@ class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     genre = models.CharField(max_length=100, choices=GENRE_CHOICES, default="Non-fiction(other)")
-    about = models.TextField()
+    about = models.TextField(max_length=400)
     year = models.IntegerField()
     image = models.ImageField(default='default_cover.jpg', upload_to="cover_pics")
+    user = models.ManyToManyField(User, through=UserBookNotes, related_name="books")
     def __str__(self):
         return self.title
 
