@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 {% for favorite in favorites %}
-<legend>
-    Favorites
-</legend>
+<h2>Favor</h2>
 <article class="media content-section">
-    <a href="{% url 'book_detail' book.id %}">
-        <img style="box-shadow:0px 0px 2px 2px #5f788a; border-radius: 10px;" class="mr-3" src="{{ favorite.book.image.url }}">
+    <a href="{% url 'book_detail' favorite.id %}">
+        <img style="box-shadow:0px 0px 2px 2px #5f788a; border-radius: 10px;" class="mr-3" src="{{ favorite.image.url }}">
     </a>
     <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="{% url 'book_detail' book.id %}">{{ favorite.book.title }}</a>
-            <small class="text-muted">{{ favorite.book.author }}</small>
+            <a class="mr-2" href="{% url 'book_detail' favorite.id %}">{{ favorite.title }}</a>
+            <small class="text-muted">{{ favorite.author }}</small>
         </div>
-        <h2 class="article-title">{{ favorite.book.title }}</h2>
-        <p class="article-content">{{ favorite.book.about }}</p>
+        <h2 class="article-title">{{ favorite.title }}</h2>
+        <p class="article-content">{{ favorite.about }}</p>
     </div>
 </article>
 {% endfor %}

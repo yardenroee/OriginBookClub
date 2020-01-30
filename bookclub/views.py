@@ -21,10 +21,13 @@ class BookDetailView(DetailView):
             if book not in user.profile.favorites.all():
                 user.profile.favorites.add(book)
                 user.save()
+                return redirect('favorites')
             else:
                 user.profile.favorites.remove(book)
                 user.save()
-        return redirect('index')
+                return redirect('favorites')
+        return redirect('favorites')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favorites'] = self.request.user.profile.favorites.all()
