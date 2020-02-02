@@ -28,7 +28,7 @@
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
                     </div>
-                    <form method="GET" action="search">
+                    <form method="GET" action="/search">
                         <input class="search-bar" type="text" name="q" placeholder="Search for Books" value="{{ query }}">
                         <button class="search-icon" type="submit">
                             <i class="fas fa-search"></i>
