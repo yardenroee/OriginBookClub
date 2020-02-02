@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .models import Book, UserBookNotes
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,6 +12,28 @@ class BookListView(ListView):
     context_object_name = "books"
     paginate_by = 4
     ordering = ['-title']
+    
+class SearchListView(ListView):
+    model = Book
+    template_name = "index.html"
+    context_object_name = "books"
+    paginate_by = 4
+    ordering = ['-title']
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q', None)
+        qs = Book.objects.all()
+        if query is not None:
+            qs = qs.filter(
+                Q(title__icontains = query) |
+                Q(author__icontains = query) |
+                Q(year__icontains = query))
+        return qs
+    def get_context_data(self, *args, **kwargs):
+        context= super(SearchListView, self).get_context_data(**kwargs)
+        query = self.request.GET.get('q')
+        context['query'] = query
+        return context
 
 class BookDetailView(LoginRequiredMixin, DetailView):
     model = Book
