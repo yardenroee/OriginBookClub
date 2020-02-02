@@ -13,6 +13,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/1abc919293.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="site-header">
@@ -27,6 +28,12 @@
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
                     </div>
+                    <form method="GET" action="search">
+                        <input class="search-bar" type="text" name="q" placeholder="Search for Books" value="{{ query }}">
+                        <button class="search-icon" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
                         {% if user.is_authenticated%}
@@ -83,4 +90,37 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 </body>
+<style>
+.search-bar{
+    border-width: 1px;
+    opacity: 60%;
+    border-style: solid;
+    background: white;
+    border-color: #e8e5e5;
+    border-radius: 40px;
+    color: black;
+    height: 35px;
+    font-size: 1.000em;
+    padding: 0 66px 0 30px;
+    width: 85%;
+    font-size: 15px;
+}
+.search-bar:focus{
+    outline: none;
+}
+.search-icon{
+    background: none;
+    color: #black;
+    border: none;
+    height: 40px;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    z-index: 999999;
+    position: absolute;
+}
+.search-icon:focus{
+    outline: none
+}
+</style>
 </html>
