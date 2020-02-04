@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Profile
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from bookclub.models import Book
 
@@ -52,3 +52,4 @@ class FavoriteListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['favorites'] = self.request.user.profile.favorites.all()   
         return context
+

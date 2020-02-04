@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from .models import Book, UserBookNotes
+from .models import Book, UserBookNotes, Comment
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import modelformset_factory
-from .forms import AddUpdateBookForm, BookNoteUpdateForm
+from .forms import AddUpdateBookForm, BookNoteUpdateForm, CommentForm
 
 class BookListView(ListView):
     model = Book
@@ -43,6 +42,10 @@ class BookDetailView(LoginRequiredMixin, DetailView):
         book = Book.objects.get(pk=self.kwargs.get('pk'))
         if self.request.method == "POST":
             if user.is_authenticated:
+                comment = self.request.POST.get('text')
+                if comment:
+                    Comment.objects.create(author = user, book = book, text = comment)
+                    return redirect(self.request.path)
                 if book not in user.profile.favorites.all():
                     user.profile.favorites.add(book)
                     user.save()
@@ -58,17 +61,18 @@ class BookDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         book = Book.objects.get(pk=self.kwargs.get('pk'))
         user = self.request.user
+        comments = Comment.objects.filter(book = book)
         if user.is_authenticated:
             book_notes = UserBookNotes.objects.filter(book=book, user=user) 
             if book_notes and user.id == book_notes.values()[0].get('user_id'):
-                print(book_notes.values()[0].get('text'))
                 context = super().get_context_data(**kwargs)
                 context['favorites'] = self.request.user.profile.favorites.all()
                 context['book_notes'] = book_notes.values()[0].get('text')
             else:
-                print('here in ELSE gcd of detailview')
                 context = super().get_context_data(**kwargs)
                 context['book_notes'] = ""
+        context['comment_form'] = CommentForm()
+        context['comments'] = comments
         return context
 
 class BookCreateView(LoginRequiredMixin, CreateView):
@@ -86,16 +90,12 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
         book = Book.objects.get(pk=self.kwargs.get('pk'))
         user = self.request.user
         book_notes = UserBookNotes.objects.filter(book=book, user=user)
-        print(book_notes)
         if self.request.method == "POST":
             if book_notes: #if notes on book 
-                print('book notes exists')
                 form1 = self.UserBookNotesFormSet(self.request.POST)
                 if form1.is_valid():
-                    print('2')
                     book_notes.update(text = form1.cleaned_data.get('text'))
             else:#if no book notes
-                print('no book notes')
                 form1 = self.UserBookNotesFormSet()
                 text = self.request.POST.get('text') # get the text field before submitting
                 new_note = UserBookNotes.objects.create(book = book, user = user, text = text)

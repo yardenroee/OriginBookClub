@@ -13,24 +13,50 @@
         <h5 class="article-content article-metadata">{{ book.genre }}</h5>
         <p class="lead article-metadata">About: {{ book.about }}</p>
         <p class="lead article-metadata">Personal Notes: {{ book_notes }}</p>
-        <form method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                {{ form|crispy}}
-            </fieldset>
-            {% if book in request.user.profile.favorites.all %}
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Unfavorite</button>
-            </div>
-            {% else %}
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Favorite</button>
-            </div>
-            {% endif %}
-        </form>
-        <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info">Update</a>
-        <a href="{% url 'book_delete' book.id %}" class="btn btn-outline-danger">Delete</a>
+        <div class="d-flex justify-content-end align-items-center">
+            <form method="POST" class="mr-2">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ form|crispy }}
+                </fieldset>
+                {% if book in request.user.profile.favorites.all %}
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Unfavorite</button>
+                </div>
+                {% else %}
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Favorite</button>
+                </div>
+                {% endif %}
+            </form>
 
+            <a href="{% url 'book_update' book.id %}" class="btn btn-outline-info mr-2">Update</a>
+            <a href="{% url 'book_delete' book.id %}" class="btn btn-outline-danger">Delete</a>
+        </div>
     </div>
-</article>
+    </article>
+    
+    <h2>Comments about this read:</h2>
+    <article class="media content-section">
+        <div class="media-body">
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="article-metadata">
+                        <a class="mr-2">{{ comment.author }}</a>
+                        <small class="text-muted">{{ comment.date }}</small>
+                    </div>
+                    <p class="article-content">{{ comment.text }}</p>
+                {% endfor %}
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ comment_form|crispy }}
+                </fieldset>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-info pl-5 pr-5">Post Comment</button>
+                </div>
+            </form>
+        </div>
+    </article>
 {% endblock content %}

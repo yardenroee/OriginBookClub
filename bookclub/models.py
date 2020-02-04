@@ -7,6 +7,18 @@ class UserBookNotes(models.Model):
     book = models.ForeignKey('Book', on_delete = models.CASCADE)
     text = models.TextField(default="")
 
+class Comment(models.Model): # for user to user interaction
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(default="")
+    date = models.DateTimeField(auto_now_add=True)
+    book = models.ForeignKey('Book', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['date']
+    
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.name)
+
 class Book(models.Model):
     GENRE_CHOICES = [
         ("Children's", "Children's"),
@@ -23,6 +35,7 @@ class Book(models.Model):
     year = models.IntegerField()
     image = models.ImageField(default='default_cover.jpg', upload_to="cover_pics")
     user = models.ManyToManyField(User, through=UserBookNotes, related_name="books")
+
     def __str__(self):
         return self.title
 
